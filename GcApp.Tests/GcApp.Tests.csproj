@@ -20,8 +20,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CodeFirstApproach2021\GcApp.csproj" />
-  </ItemGroup>
-
 </Project>

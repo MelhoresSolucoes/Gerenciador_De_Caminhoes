@@ -14,5 +14,6 @@ namespace GcApp.Data
         {
         }
         public DbSet<GcApp.Models.Caminhao> Caminhao { get; set; }
+        public DbSet<GcApp.Models.ModeloVeiculo> ModeloVeiculo { get; set; }
     }
 }
