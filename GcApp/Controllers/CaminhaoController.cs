@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GcApp.Data;
 using GcApp.Models;
+using GcApp.Utils;
+using System.Net.Http;
 
 namespace GcApp.Controllers
 {
@@ -50,6 +52,22 @@ namespace GcApp.Controllers
             return View();
         }
 
+        public async Task<bool> CreateCaminhao(Caminhao caminhao)
+        {
+            try
+            {
+                
+                _context.Add(caminhao);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            
+        }
+
         // POST: Caminhao/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -59,6 +77,9 @@ namespace GcApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (! new ValidatorCaminhao(caminhao).ValidarAnoFabricacao()) throw new Exception("Ano de Fabricação deve ser o ano atual.");
+                if (! new ValidatorCaminhao(caminhao).ValidarAnoModelo()) throw new Exception("Ano de Modelo deve ser o ano atual ou ano subsequente.");
+
                 _context.Add(caminhao);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -74,6 +95,7 @@ namespace GcApp.Controllers
                 return NotFound();
             }
 
+          
             var caminhao = await _context.Caminhao.FindAsync(id);
             if (caminhao == null)
             {
@@ -93,6 +115,10 @@ namespace GcApp.Controllers
             {
                 return NotFound();
             }
+
+            if (! new ValidatorCaminhao(caminhao).ValidarAnoFabricacao()) throw new Exception("Ano de Fabricação deve ser o ano atual.");
+            if (! new ValidatorCaminhao(caminhao).ValidarAnoModelo()) throw new Exception("Ano de Modelo deve ser o ano atual ou ano subsequente.");
+
 
             if (ModelState.IsValid)
             {
