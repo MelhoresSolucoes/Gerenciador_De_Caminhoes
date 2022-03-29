@@ -32,7 +32,8 @@ A aplicação consistem em um cadastro de caminhoes com as opções de Cadastrar
 
 Na tela de cadastro de caminhões, há uma condição quanto ao modelo, que devem ser aceitos somente dois tipos: FH e FM, então foi criado uma pagina para criação dos modelos, no qual possui um campo para bloqueio, permitindo somente utilizar os modelos ativos:
 
-![WhatsApp Image 2022-03-25 at 20 35 18](https://user-images.githubusercontent.com/96745777/160299909-dda6fcfa-40d5-417e-bda6-10e14793531e.jpeg)
+![image](https://user-images.githubusercontent.com/96745777/160702868-d5699820-2b84-4a44-a6ef-8505b7ef2d27.png)
+
 
 ## Melhorias Futuras:
 * Desempenho
