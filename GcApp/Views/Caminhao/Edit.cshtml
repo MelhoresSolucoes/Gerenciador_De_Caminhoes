@@ -1,4 +1,4 @@
-﻿@model GcApp.Models.Caminhao
+﻿@model GcApp.ViewModels.CaminhaoViewModel
 
 @{
     ViewData["Title"] = "Editando Caminhão";
@@ -13,21 +13,27 @@
             <div class="form-group">
                 <label asp-for="Descricao" class="control-label">Descrição</label>
                 <input asp-for="Descricao" class="form-control" />
-                <span asp-validation-for="IdModelo" class="text-danger"></span>
+                <span asp-validation-for="Descricao" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdModelo" class="control-label">Modelo</label>
-                <input asp-for="IdModelo" class="form-control" />
-                <span asp-validation-for="IdModelo" class="text-danger"></span>
+                <label asp-for="IdModeloVeiculo" class="control-label">Modelo</label>
+                  <select  asp-for="IdModeloVeiculo"  asp-items="@(new SelectList(Model.ListModelosVeiculos, nameof(ModeloVeiculo.Id), nameof(ModeloVeiculo.Modelo)))" class="form-control">
+                  </select>
+                <span asp-validation-for="IdModeloVeiculo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="AnoFabricacao" class="control-label">Ano Fabricação</label>
-                <input asp-for="AnoFabricacao" class="form-control" />
+                <select asp-for="AnoFabricacao" class="form-control">
+                        <option value="@(DateTime.Now.Year)">@(DateTime.Now.Year)</option> 
+                </select>  
                 <span asp-validation-for="AnoFabricacao" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="AnoModelo" class="control-label">Ano Modelo</label>
-                <input asp-for="AnoModelo" class="form-control" />
+                <select asp-for="AnoModelo" class="form-control" value="">
+                       <option value="@(DateTime.Now.Year)" >@(DateTime.Now.Year)</option> 
+                       <option value="@(DateTime.Now.Year + 1)" >@(DateTime.Now.Year + 1)</option> 
+                </select> 
                 <span asp-validation-for="AnoModelo" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -37,14 +43,13 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Gravar" class="btn btn-primary" />
+                <input type="submit" asp-action="Index" value="Voltar" class="btn btn-primary"/>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Voltar</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

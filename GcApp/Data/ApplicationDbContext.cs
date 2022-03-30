@@ -14,6 +14,29 @@ namespace GcApp.Data
         {
         }
         public DbSet<GcApp.Models.Caminhao> Caminhao { get; set; }
-        public DbSet<GcApp.Models.ModeloVeiculo> ModeloVeiculo { get; set; }
+       public DbSet<GcApp.Models.ModeloVeiculo> ModeloVeiculo { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Caminhao>()
+                .ToTable("Caminhao");
+
+            modelBuilder.Entity<Caminhao>()
+                .HasKey(p => p.Id);
+
+            modelBuilder.Entity<ModeloVeiculo>()
+                .ToTable("ModeloVeiculo");
+
+            modelBuilder.Entity<ModeloVeiculo>()
+                .HasKey(p => p.Id);
+
+            modelBuilder.Entity<Caminhao>()
+                .HasOne(p => p.ModeloVeiculo)
+                .WithMany()
+                .HasForeignKey(b => b.IdModeloVeiculo);
+
+        }
     }
 }

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <UserSecretsId>aspnet-GcApp-2E72205F-C462-45DC-8F9D-F11C6EBFFE60</UserSecretsId>
+    <UserSecretsId>aspnet-GcAppx-2E72205F-C462-45DC-8F9D-F11C6EBFFE60</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +15,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

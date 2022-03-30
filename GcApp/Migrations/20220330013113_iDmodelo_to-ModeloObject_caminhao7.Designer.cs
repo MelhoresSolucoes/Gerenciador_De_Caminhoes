@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GcApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220325163506_Novos_campos_caminhao")]
-    partial class Novos_campos_caminhao
+    [Migration("20220330013113_iDmodelo_to-ModeloObject_caminhao7")]
+    partial class iDmodelo_toModeloObject_caminhao7
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,23 +33,51 @@ namespace GcApp.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("AnoFabricacao")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("Ano Fafricação");
 
                     b.Property<int>("AnoModelo")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("Ano Modelo");
 
                     b.Property<string>("Descricao")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Descrição");
 
                     b.Property<string>("DetalhesTecnicos")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Detalhes Ténicos");
 
-                    b.Property<string>("IdModelo")
+                    b.Property<int>("IdModeloVeiculo")
+                        .HasColumnType("int")
+                        .HasColumnName("Modelo");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdModeloVeiculo");
+
+                    b.ToTable("Caminhao", (string)null);
+                });
+
+            modelBuilder.Entity("GcApp.Models.ModeloVeiculo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Bloqueado")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Modelo")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Caminhao");
+                    b.ToTable("ModeloVeiculo", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -252,6 +280,17 @@ namespace GcApp.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("GcApp.Models.Caminhao", b =>
+                {
+                    b.HasOne("GcApp.Models.ModeloVeiculo", "ModeloVeiculo")
+                        .WithMany()
+                        .HasForeignKey("IdModeloVeiculo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ModeloVeiculo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

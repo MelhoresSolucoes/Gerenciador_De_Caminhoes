@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GcApp.Migrations
 {
-    public partial class GcApp : Migration
+    public partial class iDmodelo_toModeloObject_caminhao3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,21 +46,6 @@ namespace GcApp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Caminhao",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AnoFabricacao = table.Column<int>(type: "int", nullable: false),
-                    AnoModelo = table.Column<int>(type: "int", nullable: false),
-                    IdModelo = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Caminhao", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -169,6 +154,43 @@ namespace GcApp.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Caminhao",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdModeloVeiculo = table.Column<int>(type: "int", nullable: false),
+                    AnoFabricacao = table.Column<int>(type: "int", nullable: false),
+                    AnoModelo = table.Column<int>(type: "int", nullable: false),
+                    DetalhesTecnicos = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Caminhao", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ModeloVeiculo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Modelo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Bloqueado = table.Column<bool>(type: "bit", nullable: false),
+                    CaminhaoId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ModeloVeiculo", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ModeloVeiculo_Caminhao_CaminhaoId",
+                        column: x => x.CaminhaoId,
+                        principalTable: "Caminhao",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -207,10 +229,33 @@ namespace GcApp.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Caminhao_IdModeloVeiculo",
+                table: "Caminhao",
+                column: "IdModeloVeiculo",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ModeloVeiculo_CaminhaoId",
+                table: "ModeloVeiculo",
+                column: "CaminhaoId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Caminhao_ModeloVeiculo_IdModeloVeiculo",
+                table: "Caminhao",
+                column: "IdModeloVeiculo",
+                principalTable: "ModeloVeiculo",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Caminhao_ModeloVeiculo_IdModeloVeiculo",
+                table: "Caminhao");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -227,13 +272,16 @@ namespace GcApp.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Caminhao");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "ModeloVeiculo");
+
+            migrationBuilder.DropTable(
+                name: "Caminhao");
         }
     }
 }

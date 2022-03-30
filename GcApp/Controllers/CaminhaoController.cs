@@ -9,6 +9,7 @@ using GcApp.Data;
 using GcApp.Models;
 using GcApp.Utils;
 using System.Net.Http;
+using GcApp.ViewModels;
 
 namespace GcApp.Controllers
 {
@@ -21,11 +22,12 @@ namespace GcApp.Controllers
             _context = context;
         }
 
+
         // GET: Caminhao
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Caminhao.ToListAsync());
-         
+            return View(await _context.Caminhao.Include("ModeloVeiculo").ToListAsync());
+
         }
 
         // GET: Caminhao/Details/5
@@ -47,16 +49,21 @@ namespace GcApp.Controllers
         }
 
         // GET: Caminhao/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var list = await _context.ModeloVeiculo.Where(o => o.Bloqueado == false).ToListAsync();
+
+            return View(new CaminhaoViewModel
+            {
+                ListModelosVeiculos = list
+            });
         }
+
 
         public async Task<bool> CreateCaminhao(Caminhao caminhao)
         {
             try
             {
-                
                 _context.Add(caminhao);
                 await _context.SaveChangesAsync();
                 return true;
@@ -65,7 +72,7 @@ namespace GcApp.Controllers
             {
                 return false;
             }
-            
+
         }
 
         // POST: Caminhao/Create
@@ -73,12 +80,12 @@ namespace GcApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Descricao,IdModelo,AnoFabricacao,AnoModelo,DetalhesTecnicos")] Caminhao caminhao)
+        public async Task<IActionResult> Create([Bind("Id,Descricao,IdModeloVeiculo,AnoFabricacao,AnoModelo,DetalhesTecnicos")] Caminhao caminhao)
         {
             if (ModelState.IsValid)
             {
-                if (! new ValidatorCaminhao(caminhao).ValidarAnoFabricacao()) throw new Exception("Ano de Fabricação deve ser o ano atual.");
-                if (! new ValidatorCaminhao(caminhao).ValidarAnoModelo()) throw new Exception("Ano de Modelo deve ser o ano atual ou ano subsequente.");
+                if (!new ValidatorCaminhao(caminhao).ValidarAnoFabricacao()) throw new Exception("Ano de Fabricação deve ser o ano atual.");
+                if (!new ValidatorCaminhao(caminhao).ValidarAnoModelo()) throw new Exception("Ano de Modelo deve ser o ano atual ou ano subsequente.");
 
                 _context.Add(caminhao);
                 await _context.SaveChangesAsync();
@@ -95,13 +102,24 @@ namespace GcApp.Controllers
                 return NotFound();
             }
 
-          
+
             var caminhao = await _context.Caminhao.FindAsync(id);
             if (caminhao == null)
             {
                 return NotFound();
             }
-            return View(caminhao);
+            return View(new CaminhaoViewModel()
+            {
+                AnoFabricacao = caminhao.AnoFabricacao,
+                AnoModelo = caminhao.AnoModelo,
+                Descricao = caminhao.Descricao,
+                DetalhesTecnicos = caminhao.DetalhesTecnicos,
+                Id = caminhao.Id,
+                IdModeloVeiculo = caminhao.IdModeloVeiculo,
+                ListModelosVeiculos = _context.ModeloVeiculo.Where(o => o.Bloqueado == false).ToList(),
+                ModeloVeiculo = _context.ModeloVeiculo.Find(caminhao.Id)
+
+            }) ;
         }
 
         // POST: Caminhao/Edit/5
@@ -109,15 +127,15 @@ namespace GcApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Descricao,IdModelo,AnoFabricacao,AnoModelo,DetalhesTecnicos")] Caminhao caminhao)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Descricao,IdModeloVeiculo,AnoFabricacao,AnoModelo,DetalhesTecnicos")] Caminhao caminhao)
         {
             if (id != caminhao.Id)
             {
                 return NotFound();
             }
 
-            if (! new ValidatorCaminhao(caminhao).ValidarAnoFabricacao()) throw new Exception("Ano de Fabricação deve ser o ano atual.");
-            if (! new ValidatorCaminhao(caminhao).ValidarAnoModelo()) throw new Exception("Ano de Modelo deve ser o ano atual ou ano subsequente.");
+            if (!new ValidatorCaminhao(caminhao).ValidarAnoFabricacao()) throw new Exception("Ano de Fabricação deve ser o ano atual.");
+            if (!new ValidatorCaminhao(caminhao).ValidarAnoModelo()) throw new Exception("Ano de Modelo deve ser o ano atual ou ano subsequente.");
 
 
             if (ModelState.IsValid)

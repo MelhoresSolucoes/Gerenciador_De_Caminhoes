@@ -4,6 +4,7 @@ using GcApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GcApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220330021354_iDmodelo_to-ModeloObject_caminhao8")]
+    partial class iDmodelo_toModeloObject_caminhao8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,19 +33,26 @@ namespace GcApp.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("AnoFabricacao")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("Ano Fafricação");
 
                     b.Property<int>("AnoModelo")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("Ano Modelo");
 
                     b.Property<string>("Descricao")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Descrição");
 
                     b.Property<string>("DetalhesTecnicos")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Detalhes Ténicos");
 
                     b.Property<int>("IdModeloVeiculo")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("IdModelo");
 
                     b.HasKey("Id");
 

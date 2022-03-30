@@ -1,29 +1,30 @@
 ﻿@model IEnumerable<GcApp.Models.Caminhao>
-
+@using GcApp.Controllers
 @{
     ViewData["Title"] = "Caminhões";
 }
 
 <p>
-    <input type="submit" value="Incluir Caminhão" class="btn btn-primary" />
+    
+     <a asp-action="Create">Incluir Caminhão</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Descricao)
+                Descriçãp
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdModelo)
+                Modelo
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AnoFabricacao)
+                Ano de Fabricação
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AnoModelo)
+                Ano Modelo
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DetalhesTecnicos)
+                Detalhes Técnicos
             </th>
             <th></th>
         </tr>
@@ -35,7 +36,7 @@
                 @Html.DisplayFor(modelItem => item.Descricao)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdModelo)
+                @Html.DisplayFor( modelItem =>   item.ModeloVeiculo.Modelo )
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AnoFabricacao)
@@ -47,7 +48,8 @@
                 @Html.DisplayFor(modelItem => item.DetalhesTecnicos)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                
+                 <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
             </td>

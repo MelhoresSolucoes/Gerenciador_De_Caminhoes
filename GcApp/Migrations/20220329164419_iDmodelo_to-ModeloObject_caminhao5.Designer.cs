@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GcApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220325222621_new-model-ModeloVeiculo")]
-    partial class newmodelModeloVeiculo
+    [Migration("20220329164419_iDmodelo_to-ModeloObject_caminhao5")]
+    partial class iDmodelo_toModeloObject_caminhao5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,17 +39,21 @@ namespace GcApp.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Descricao")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DetalhesTecnicos")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("IdModelo")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("IdModeloVeiculo")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Caminhao");
+                    b.HasIndex("IdModeloVeiculo");
+
+                    b.ToTable("Caminhao", (string)null);
                 });
 
             modelBuilder.Entity("GcApp.Models.ModeloVeiculo", b =>
@@ -63,12 +67,17 @@ namespace GcApp.Migrations
                     b.Property<bool>("Bloqueado")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("CaminhaoId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Modelo")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("ModeloVeiculo");
+                    b.HasIndex("CaminhaoId");
+
+                    b.ToTable("ModeloVeiculo", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -273,6 +282,24 @@ namespace GcApp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("GcApp.Models.Caminhao", b =>
+                {
+                    b.HasOne("GcApp.Models.ModeloVeiculo", "ModeloVeiculo")
+                        .WithMany()
+                        .HasForeignKey("IdModeloVeiculo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ModeloVeiculo");
+                });
+
+            modelBuilder.Entity("GcApp.Models.ModeloVeiculo", b =>
+                {
+                    b.HasOne("GcApp.Models.Caminhao", null)
+                        .WithMany("ListModelosVeiculos")
+                        .HasForeignKey("CaminhaoId");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -322,6 +349,11 @@ namespace GcApp.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("GcApp.Models.Caminhao", b =>
+                {
+                    b.Navigation("ListModelosVeiculos");
                 });
 #pragma warning restore 612, 618
         }
