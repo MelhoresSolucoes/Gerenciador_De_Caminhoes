@@ -26,9 +26,9 @@ Para persistência dos dados fou utilizado Entity Framework com banco de dados l
 
 A aplicação consistem em um cadastro de caminhoes com as opções de Cadastrar, Editar, Excluir e Visualizar.
 
-![WhatsApp Image 2022-03-25 at 13 53 23](https://user-images.githubusercontent.com/96745777/160299750-eb457987-b174-42de-a78c-004985cdcfc8.jpeg)
+![image](https://user-images.githubusercontent.com/96745777/160909656-7b1a879e-518e-4bbe-bcc4-4fa50d2d2fea.png)
 
-![WhatsApp Image 2022-03-25 at 13 53 49](https://user-images.githubusercontent.com/96745777/160326395-499ec775-58e5-4528-83a8-d82c934a9b68.jpeg)
+![image](https://user-images.githubusercontent.com/96745777/160909797-26f5bbb2-c517-4044-8704-4995320f76a9.png)
 
 Na tela de cadastro de caminhões, há uma condição quanto ao modelo, que devem ser aceitos somente dois tipos: FH e FM, então foi criado uma pagina para criação dos modelos, no qual possui um campo para bloqueio, permitindo somente utilizar os modelos ativos:
 
