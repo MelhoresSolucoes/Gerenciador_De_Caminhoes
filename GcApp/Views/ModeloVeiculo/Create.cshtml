@@ -15,13 +15,15 @@
                 <span asp-validation-for="Modelo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Bloqueado" class="control-label">Bloqueado</label>
-                <input asp-for="Bloqueado" class="form-control" />
-                <span asp-validation-for="Bloqueado " class="text-danger"></span>
+                <div class="custom-control custom-checkbox">
+                  <input asp-for="Bloqueado" type="checkbox" class="custom-control-input" id="customCheck1">
+                  <label asp-for="Bloqueado" class="custom-control-label" for="customCheck1">Bloqueado</label>
+                  <span asp-validation-for="Bloqueado " class="text-danger"></span>
+                </div>
             </div>
             <div class="form-group">
-                <input type="submit" value="Gravar" class="btn btn-primary" />
-                <input type="submit" asp-action="Index" value="Voltar" class="btn btn-primary"/>
+                <input type="submit" value="Gravar" class="btn btn-dark" />
+                <input type="submit" asp-action="Index" value="Voltar" class="btn btn-dark"/>
             </div>
         </form>
     </div>

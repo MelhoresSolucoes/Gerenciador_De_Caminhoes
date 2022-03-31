@@ -5,14 +5,13 @@
 }
 
 <p>
-    
-     <a asp-action="Create">Incluir Caminhão</a>
+    <a class="btn btn-dark" asp-action="Create"  role="button">Incluir Caminhão</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                Descriçãp
+                Descrição
             </th>
             <th>
                 Modelo
@@ -48,10 +47,11 @@
                 @Html.DisplayFor(modelItem => item.DetalhesTecnicos)
             </td>
             <td>
-                
-                 <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a asp-action="Edit" type="button"  class="btn btn-secondary" asp-route-id="@item.Id">Editar</a>
+                    <a asp-action="Details" type="button"  class="btn btn-secondary" asp-route-id="@item.Id">Detalhes</a>
+                    <a asp-action="Delete" type="button"  class="btn btn-secondary" asp-route-id="@item.Id">Excluir</a>
+                </div>
             </td>
         </tr>
 }
